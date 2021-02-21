@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Murugan bhavan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <script type="text/javascript">
+      var user = '{{request.user}}'
+      function getToken(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getToken('csrftoken')
+  </script>
+  <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">  
+</head>
+
+<body>
+  <!-- Navbar -->
+
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+        <a class="navbar-brand" href="#">Murugan bhavan</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right text-center">
+          <li><a href="/">Home</a></li>
+          <li><a href="#aboutus">About us</a></li>
+          <li><a href="#Locations">Locations</a></li>
+          <li><a href="#menu">Menu</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Log out</a></li> 
+            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
+          {% else %}
+          <li><a href="{% url 'register' %}">Sign up</a></li>
+          <li><a href="{% url 'login' %}">Log In</a></li>
+          {% endif %} 
+        </ul>
+      </div>
+    </div>
+  </nav>
+  {% block content %}
+
+  {% endblock content %}
+
+  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+  </script>
+</body>

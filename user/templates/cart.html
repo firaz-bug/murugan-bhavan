@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+	<div class="col-lg-12">
+		<div class="container">
+			<a class="btn btn-warning margin" href="{% url 'home' %}">Continue shopping</a>
+			<table class="table">
+				<tr>
+					<th><h5>Items:<strong>{{order.get_cart_items}}</strong></h5></th>
+					<th><h5>Total amount:<strong>{{order.get_cart_total}}</strong></h5></th>
+					<th><a class="btn btn-warning" href="{% url 'checkout' %}" style="float:right;">Place order</a></th>
+				</tr>
+			</table>
+		</div>
+
+		<div class="container">
+			<div class="cart-row">
+				<div style="flex:2"><strong>Item</strong></div>
+				<div style="flex:1"><strong>Price</strong></div>
+				<div style="flex:2"><strong>Quantity</strong></div>
+				<div style="flex:1"><strong>Total</strong></div>
+			</div>
+			{% for item in items %}
+			<div class="cart-row">
+				<div style="flex:2">{{item.product.name}}</div>
+				<div style="flex:1">{{item.product.price|floatformat:2}}</div>
+				<div style="flex:2">
+					<div><button data-product={{item.product.id}} data-action="remove" class="btn btn-danger update-cart" onClick="window.location.reload();">-</button> {{item.quantity}} <button data-product={{item.product.id}} data-action="add" class="btn btn-primary update-cart" onClick="window.location.reload();">+</button></div>
+				</div>
+				<div style="flex:1">{{item.get_total}}</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock content %}
